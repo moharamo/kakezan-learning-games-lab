@@ -94,3 +94,6 @@ npm test
 ソースコードは [MITライセンス](./LICENSE) の下で公開しています。自由に再利用・改変・再配布いただけます。
 
 ただし、音声ファイルはVOICEVOXで生成したものであり、コードとは別に[VOICEVOXおよび音声ライブラリの利用規約](https://github.com/VOICEVOX/voicevox_vvm/blob/main/TERMS.txt)が適用されます。再利用の際はご注意ください。
+
+##
+kakezan-learning-games-labはkakezan-learning-gamesをコピーして作りました
