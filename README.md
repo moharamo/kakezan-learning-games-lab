@@ -96,4 +96,5 @@ npm test
 ただし、音声ファイルはVOICEVOXで生成したものであり、コードとは別に[VOICEVOXおよび音声ライブラリの利用規約](https://github.com/VOICEVOX/voicevox_vvm/blob/main/TERMS.txt)が適用されます。再利用の際はご注意ください。
 
 ##
-kakezan-learning-games-labはkakezan-learning-gamesをコピーして作りました
+kakezan-learning-games-labはkakezan-learning-gamesをコピーして作りました。
+色々試すためのものです。
