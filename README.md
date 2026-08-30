@@ -98,3 +98,4 @@ npm test
 ##
 kakezan-learning-games-labはkakezan-learning-gamesをコピーして作りました。
 色々試すためのものです。
+公開サイトは、kakezan-learning-gamesの内容が反映されたものです。
