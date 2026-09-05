@@ -18,6 +18,15 @@ export function mountRocketGame({ app, save, persist, playEffect, getReading, sp
   let questionStartedAt = 0;
   let hideTimer = null;
 
+  function getPlayerName() {
+    let name = localStorage.getItem('playerName');
+    if (!name) {
+      name = prompt('お名前を入力してください', 'たろう')
+      localStorage.setItem('playerName', name);
+    }
+    return name;
+  }
+
   function tableProgress(table) {
     return save.rocket.tables[table] || { completedLevel: -1, best: {} };
   }
@@ -153,6 +162,22 @@ export function mountRocketGame({ app, save, persist, playEffect, getReading, sp
     try { trackEvent('game_complete', { game: 'rocket', dan, level: LEVELS[levelIndex].id, correct: progress.correct, total: progress.answered || 9 }); } catch (e) { console.debug('analytics error', e); }
     const stored = tableProgress(dan);
     stored.completedLevel = Math.max(stored.completedLevel, levelIndex); stored.best[LEVELS[levelIndex].id] = Math.max(stored.best[LEVELS[levelIndex].id] || 0, progress.correct); save.rocket.tables[dan] = stored; persist();
+
+    async function sendScoreToServer(playerName, score) {
+      try{
+        const response = await fetch('http://127.0.0.1:8000/scores', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ player_name: playerName, score: score }),
+        });
+        console.log('Score sent:', await response.json());
+      } catch (e) {
+        console.error('Failed to send score', e);
+      }
+    }
+
+    sendScoreToServer(getPlayerName(), progress.correct);
+
     app.innerHTML = `<nav class="game-nav" aria-label="もどる"><button id="rocket-finish-exit" class="nav-back">‹ ゲームいちらん</button><button id="rocket-finish-levels" class="nav-home" aria-label="レベルをえらぶ">⌂</button></nav><section class="rocket-finish"><div>🚀✨🪐</div><p class="eyebrow">ほしに とうちゃく！</p><h1>9もん できた！</h1><p>${lastMessage}</p><p>${progress.correct}もん せいかいしたよ。</p><div><button id="rocket-again">もういちど</button><button id="rocket-next">${levelIndex < 3 ? 'つぎの レベル' : 'だんを えらぶ'}</button></div></section>`;
     document.querySelector('#rocket-finish-exit').addEventListener('click', onExit);
     document.querySelector('#rocket-finish-levels').addEventListener('click', renderLevels);
